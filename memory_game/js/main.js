@@ -1,7 +1,4 @@
-/*
-global scope arrays
-*/
-// array that contains the card objects
+// global scope arrays that contains the card objects
 var cards = [
   {
     rank: 'queen',
@@ -26,12 +23,9 @@ var cards = [
 ];
 var cardsInPlay = [];
 
-/*
-function to check if cards are a match
-*/
 var checkForMatch = function() {
   // checks if cards in play are of equal face, displays certain alert message depending
-  if (cardsInPlay.length = 2) {
+  if (cardsInPlay.length > 1) {
     if (cardsInPlay[0] === cardsInPlay[1]) {
       alert("You found a match!");
     } else {
@@ -40,10 +34,9 @@ var checkForMatch = function() {
   }
 }
 
-/*
-function to flip cards
-*/
-var flipCard = function(cardId) {
+var flipCard = function() {
+  var cardId = this.getAttribute('data-id');
+
   // prints what cards the user flipped
   console.log("User flipped " + cards[cardId].rank);
   console.log(cards[cardId].cardImage);
@@ -52,8 +45,20 @@ var flipCard = function(cardId) {
   // adds cards to end of cardsInPlay arr
   cardsInPlay.push(cards[cardId].rank);
 
+  this.setAttribute('src', cards[cardId].cardImage);
+
   checkForMatch();
 }
 
-flipCard(0);
-flipCard(2);
+var createBoard = function() {
+  for (var i = 0; i < cards.length; i++) {
+    // adding new element
+    var cardElement = document.createElement('img');
+    cardElement.setAttribute('src', "images/back.png");
+    cardElement.setAttribute('data-id', i);
+    cardElement.addEventListener('click', flipCard);
+    document.getElementById('game-board').appendChild(cardElement);
+  }
+}
+
+createBoard();
